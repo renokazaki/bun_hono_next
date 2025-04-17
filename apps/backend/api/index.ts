@@ -46,13 +46,31 @@ const route = app.get("/hello", (c) => {
 //   return c.json(gettodos);
 // });
 
+// Todoエンドポイント - 環境変数のアクセス方法を修正
 app.get("/todos", async (c) => {
-  // Now you can use it wherever you want
-  const prisma = getPrisma(
-    "postgresql://postgres.wxxwfsigadikodfkclcv:okazakiren19990821@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
-  );
-  const gettodos = await prisma.todo.findMany();
-  return c.json(gettodos);
+  try {
+    // Vercelのエッジ環境で環境変数にアクセスする方法
+    const database_url =
+      process.env.DATABASE_URL ||
+      c.env?.DATABASE_URL ||
+      c.req.raw.headers.get("x-vercel-env-DATABASE_URL");
+
+    if (!database_url) {
+      return c.json({ error: "DATABASE_URL is not defined" }, 500);
+    }
+
+    const prisma = getPrisma(database_url);
+    const todos = await prisma.todo.findMany();
+    return c.json(todos);
+  } catch (error) {
+    console.error("Error fetching todos:", error);
+    return c.json(
+      {
+        error: "Failed to fetch todos",
+      },
+      500
+    );
+  }
 });
 
 export type AppType = typeof route;
