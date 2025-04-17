@@ -6,9 +6,9 @@ import { PrismaClient } from "@prisma/client";
 // //開発用
 // import { serve } from "@hono/node-server";
 
-export const config = {
-  runtime: "edge",
-};
+// export const config = {
+//   runtime: "edge",
+// };
 
 const app = new Hono().basePath("/api");
 const prisma = new PrismaClient();
