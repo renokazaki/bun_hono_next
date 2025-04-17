@@ -3,5 +3,10 @@
     "private": true,
     "workspaces": [
         "apps/*"
-    ]
+    ],
+    "scripts": {
+        "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+        "dev:frontend": "cd apps/frontend && bun run dev",
+        "dev:backend": "cd apps/backend && bun run dev"
+    }
 }

@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "backend": "workspace:*",
+    "backend": "0.0.0",
     "hono": "^4.7.7",
     "next": "15.3.0",
     "react": "^19.0.0",
