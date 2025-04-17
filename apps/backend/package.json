@@ -2,7 +2,8 @@
   "name": "backend",
   "scripts": {
     "start": "vercel dev",
-    "deploy": "vercel"
+    "deploy": "vercel",
+    "build": "bun build api/index.ts --outdir dist --target node"
   },
   "dependencies": {
     "hono": "^4.7.7"
