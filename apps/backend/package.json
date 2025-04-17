@@ -3,7 +3,8 @@
   "scripts": {
     "start": "vercel dev",
     "deploy": "vercel",
-    "dev": "tsx watch api/index.ts"
+    "dev": "tsx watch api/index.ts",
+    "build": "bunx prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
