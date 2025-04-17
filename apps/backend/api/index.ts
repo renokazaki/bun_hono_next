@@ -1,7 +1,8 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
-import { getPrisma } from "../prisma/prismaFunction";
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
 // //開発用
 // import { serve } from "@hono/node-server";
@@ -11,15 +12,8 @@ export const config = {
 };
 
 // Create the main Hono app
-const app = new Hono<{
-  Bindings: {
-    DATABASE_URL: string;
-    JWT_SECRET: string;
-  };
-  Variables: {
-    userId: string;
-  };
-}>().basePath("/api");
+const app = new Hono().basePath("/api");
+const prisma = new PrismaClient().$extends(withAccelerate());
 
 app.use(
   "*",
@@ -41,36 +35,9 @@ const route = app.get("/hello", (c) => {
   return c.json({ message: "Hello Hono!" });
 });
 
-// app.get("/todos", async (c) => {
-//   const gettodos = await prisma.todo.findMany();
-//   return c.json(gettodos);
-// });
-
-// Todoエンドポイント - 環境変数のアクセス方法を修正
 app.get("/todos", async (c) => {
-  try {
-    // Vercelのエッジ環境で環境変数にアクセスする方法
-    const database_url =
-      process.env.DATABASE_URL ||
-      c.env?.DATABASE_URL ||
-      c.req.raw.headers.get("x-vercel-env-DATABASE_URL");
-
-    if (!database_url) {
-      return c.json({ error: "DATABASE_URL is not defined" }, 500);
-    }
-
-    const prisma = getPrisma(database_url);
-    const todos = await prisma.todo.findMany();
-    return c.json(todos);
-  } catch (error) {
-    console.error("Error fetching todos:", error);
-    return c.json(
-      {
-        error: "Failed to fetch todos",
-      },
-      500
-    );
-  }
+  const gettodos = await prisma.todo.findMany();
+  return c.json(gettodos);
 });
 
 export type AppType = typeof route;

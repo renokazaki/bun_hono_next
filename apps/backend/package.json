@@ -5,7 +5,7 @@
     "start": "vercel dev",
     "deploy": "vercel",
     "dev": "tsx watch api/index.ts",
-    "build": "bunx prisma generate"
+    "build": "bunx prisma generate  --no-engine"
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
