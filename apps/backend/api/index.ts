@@ -48,7 +48,9 @@ const route = app.get("/hello", (c) => {
 
 app.get("/todos", async (c) => {
   // Now you can use it wherever you want
-  const prisma = getPrisma(c.env.DATABASE_URL);
+  const prisma = getPrisma(
+    "postgresql://postgres.wxxwfsigadikodfkclcv:okazakiren19990821@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+  );
   const gettodos = await prisma.todo.findMany();
   return c.json(gettodos);
 });
