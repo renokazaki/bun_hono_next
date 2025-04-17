@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
 import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
 // //開発用
 // import { serve } from "@hono/node-server";
@@ -11,7 +12,7 @@ export const config = {
 };
 
 const app = new Hono().basePath("/api");
-const prisma = new PrismaClient();
+const prisma = new PrismaClient().$extends(withAccelerate());
 
 app.use(
   "*",
