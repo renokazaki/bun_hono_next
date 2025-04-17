@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/edge";
 
 // //開発用
 // import { serve } from "@hono/node-server";
@@ -33,10 +33,10 @@ const route = app.get("/hello", (c) => {
   return c.json({ message: "Hello Hono!" });
 });
 
-// app.get("/todos", async (c) => {
-//   const gettodos = await prisma.todo.findMany();
-//   return c.json(gettodos);
-// });
+app.get("/todos", async (c) => {
+  const gettodos = await prisma.todo.findMany();
+  return c.json(gettodos);
+});
 
 export type AppType = typeof route;
 
