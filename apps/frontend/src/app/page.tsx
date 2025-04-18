@@ -23,7 +23,7 @@ export default function Home() {
   const handleClick2 = async () => {
     const res2 = await client.api.todos.$get();
     const data2 = await res2.json();
-    setTodos(data2);
+    setTodos(data2 as Todo[]);
   };
 
   // const handleClick3 = async () => {
