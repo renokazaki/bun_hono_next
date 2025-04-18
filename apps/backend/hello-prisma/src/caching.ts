@@ -1,7 +1,17 @@
-import { PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
+//開発用
+// import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient().$extends(withAccelerate());
+//vercel用
+import { PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from "@prisma/extension-accelerate";
+// .envから直接データベースURLを取得
+const databaseUrl =
+  "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiZjAzMjcyYzctYzNjYS00NWQzLTg4ZDktNjIwZmU2NTkzNTdjIiwidGVuYW50X2lkIjoiZjA4Y2Y2ZWRkYjY3OGQ5ZTgzYThiZGY5MmMyNzdjNzdmM2FkZTBjOGIwOTI0MGJiYTVmOGQ4YWY3ZjYwNmExZSIsImludGVybmFsX3NlY3JldCI6ImNiYzg1NzNmLTNjNWQtNDc1Zi05YzY0LWIzMjVkZGYwNjgwNSJ9.tOT0f2SLpM9edC4e3_mAUEE9JbK62_j8wS96aRotwp8";
+
+// URLを直接指定してPrismaクライアントを初期化
+const prisma = new PrismaClient({
+  datasourceUrl: databaseUrl,
+}).$extends(withAccelerate());
 
 async function main() {
   const startTime = performance.now();

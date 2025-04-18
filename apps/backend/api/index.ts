@@ -5,7 +5,9 @@ import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
 // //開発用
-// import { serve } from "@hono/node-server";
+import { serve } from "@hono/node-server";
+// データベースURLを直接指定
+const DATABASE_URL = process.env.DATABASE_URL;
 
 export const config = {
   runtime: "edge",
@@ -13,7 +15,9 @@ export const config = {
 
 // Create the main Hono app
 const app = new Hono().basePath("/api");
-const prisma = new PrismaClient().$extends(withAccelerate());
+const prisma = new PrismaClient({
+  datasourceUrl: DATABASE_URL,
+}).$extends(withAccelerate());
 
 app.use(
   "*",
@@ -23,13 +27,13 @@ app.use(
 );
 
 // 開発用
-// const port = 8085;
-// console.log(`Server is running on http://localhost:${port}`);
+const port = 8085;
+console.log(`Server is running on http://localhost:${port}`);
 
-// serve({
-//   fetch: app.fetch,
-//   port,
-// });
+serve({
+  fetch: app.fetch,
+  port,
+});
 
 const route = app.get("/hello", (c) => {
   return c.json({ message: "Hello Hono!" });
