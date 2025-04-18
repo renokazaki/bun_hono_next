@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
-import { PrismaClient } from "@prisma/client/edge";
+import { PrismaClient } from "@prisma/client";
 import { withAccelerate } from "@prisma/extension-accelerate";
 
 // //開発用
@@ -39,6 +39,27 @@ app.get("/todos", async (c) => {
   const gettodos = await prisma.todo.findMany();
   return c.json(gettodos);
 });
+
+// // Todoエンドポイント
+// app.get("/todos", async (c) => {
+//   try {
+//     // Prisma Clientを初期化
+//     const prisma = new PrismaClient({
+//       datasourceUrl: DATABASE_URL,
+//     }).$extends(withAccelerate());
+
+//     const todos = await prisma.todo.findMany();
+//     return c.json(todos);
+//   } catch (error) {
+//     console.error("Error fetching todos:", error);
+//     return c.json(
+//       {
+//         error: "Failed to fetch todos",
+//       },
+//       500
+//     );
+//   }
+// });
 
 export type AppType = typeof route;
 
