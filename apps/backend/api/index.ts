@@ -22,7 +22,7 @@ app.use(
   })
 );
 
-// //開発用
+// 開発用
 // const port = 8085;
 // console.log(`Server is running on http://localhost:${port}`);
 
