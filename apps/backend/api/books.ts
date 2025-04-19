@@ -6,7 +6,7 @@ import { handle } from "hono/vercel";
 export const config = {
   runtime: "edge",
 };
-const app = new Hono()
+const books = new Hono()
   .basePath("/books")
   .use(
     "*",
@@ -18,6 +18,6 @@ const app = new Hono()
   .post("/", (c) => c.json("create a book", 201))
   .get("/:id", (c) => c.json(`get ${c.req.param("id")}`));
 
-export type AppType = typeof app;
+export type AppType = typeof books;
 
-export default handle(app);
+export default handle(books);
