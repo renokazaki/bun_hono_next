@@ -1,8 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
-import { PrismaClient } from "@prisma/client/edge";
-import { withAccelerate } from "@prisma/extension-accelerate";
 import { prisma } from "../prisma/prisma";
 
 //👷開発用
@@ -13,32 +11,33 @@ export const config = {
 };
 
 // Create the main Hono app
-const app = new Hono().basePath("/api");
+const app = new Hono()
+  .basePath("/api")
 
-app.use(
-  "*",
-  cors({
-    origin: "*",
+  .use(
+    "*",
+    cors({
+      origin: "*",
+    })
+  )
+
+  // 👷開発用
+  //const port = 8085;
+  //console.log(`Server is running on http://localhost:${port}`);
+
+  //serve({
+  //  fetch: app.fetch,
+  //  port,
+  //});
+
+  .get("/hello", (c) => {
+    return c.json({ message: "Hello Hono!" });
   })
-);
 
-// 👷開発用
-//const port = 8085;
-//console.log(`Server is running on http://localhost:${port}`);
-
-//serve({
-//  fetch: app.fetch,
-//  port,
-//});
-
-const hello = app.get("/hello", (c) => {
-  return c.json({ message: "Hello Hono!" });
-});
-
-const getTodo = app.get("/todos", async (c) => {
-  const gettodos = await prisma.todo.findMany();
-  return c.json(gettodos);
-});
+  .get("/todos", async (c) => {
+    const gettodos = await prisma.todo.findMany();
+    return c.json(gettodos);
+  });
 
 // const postTodo = app.post("/todos", async (c) => {
 //   try {
@@ -63,6 +62,6 @@ const getTodo = app.get("/todos", async (c) => {
 //   }
 // });
 
-export type AppType = typeof hello & typeof getTodo;
+export type AppType = typeof app;
 
 export default handle(app);
