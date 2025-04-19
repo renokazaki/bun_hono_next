@@ -14,45 +14,35 @@ interface Todo {
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
 
-  const handleClick = async () => {
-    const res = await client.api.hello.$get();
-    const data = await res.json();
-    alert(data.message);
-  };
-
   const handleClick2 = async () => {
-    const res2 = await client.api.todos.$get();
+    const res2 = await client.todos.$get();
     const data2 = await res2.json();
     setTodos(data2 as Todo[]);
   };
 
-  // const handleClick3 = async () => {
-  //   try {
-  //     await client.api.todos.$post({
-  //       json: {
-  //         title: "apiから投稿",
-  //         completed: false,
-  //       },
-  //     });
-
-  //     // 投稿後にリストを更新
-  //     await handleClick2();
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //     alert("エラーが発生しました");
-  //   }
-  // };
+  const handleClick3 = async () => {
+    try {
+      await client.todos.$post({
+        json: {
+          title: "apiから投稿",
+          completed: false,
+          createdAt: "2025-04-18T00:11:09.708Z",
+          updatedAt: "2025-04-18T00:11:09.708Z",
+        },
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      alert("エラーが発生しました");
+    }
+  };
   return (
     <div>
       <div>
-        <button onClick={handleClick}>Click me</button>
-      </div>
-      <div>
         <button onClick={handleClick2}>Todoの取得</button>
       </div>
-      {/* <div>
+      <div>
         <button onClick={handleClick3}>Todoの投稿</button>
-      </div> */}
+      </div>
       {todos &&
         todos.map((todo) => (
           <div key={todo.id}>
