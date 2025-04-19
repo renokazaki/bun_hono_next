@@ -43,6 +43,9 @@ app.use(
 const hello = app.get("/hello", (c) => {
   return c.json({ message: "Hello Hono!" });
 });
+const hello2 = app.get("/hello2", (c) => {
+  return c.json({ message: "Hello Hono2!" });
+});
 
 const getTodo = app.get("/todos", async (c) => {
   const gettodos = await prisma.todo.findMany();
