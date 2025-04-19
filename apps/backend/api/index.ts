@@ -24,16 +24,19 @@ const app = new Hono();
 // });
 
 // 😃
-const routes = app
+app
   .use(
     "*",
     cors({
       origin: "*",
     })
   )
+  .get("/hello", (c) => {
+    return c.json({ message: "Hello Hono!" });
+  })
   .route("/authors", authors)
   .route("/books", books);
 // .route("/todos", todos);
 
 export default handle(app);
-export type AppType = typeof routes;
+export type AppType = typeof app;
