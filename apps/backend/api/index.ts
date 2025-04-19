@@ -3,6 +3,8 @@ import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
 import { prisma } from "../prisma/prisma";
 
+import books from "./books";
+
 //👷開発用
 //import { serve } from "@hono/node-server";
 
@@ -12,6 +14,7 @@ export const config = {
 
 // Create the main Hono app
 const app = new Hono()
+  .basePath("/api")
 
   .use(
     "*",
@@ -27,7 +30,8 @@ const app = new Hono()
   .get("/todos", async (c) => {
     const gettodos = await prisma.todo.findMany();
     return c.json(gettodos);
-  });
+  })
+  .route("/books", books);
 
 // const postTodo = app.post("/todos", async (c) => {
 //   try {
