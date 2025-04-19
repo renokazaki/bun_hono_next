@@ -1,7 +1,9 @@
 // authors.ts
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-
+export const config = {
+  runtime: "edge",
+};
 const app = new Hono()
   .use(
     "*",
