@@ -23,13 +23,14 @@ const app = new Hono();
 //   port,
 // });
 
-app.use(
-  "*",
-  cors({
-    origin: "*",
-  })
-); // 😃
+// 😃
 const routes = app
+  .use(
+    "*",
+    cors({
+      origin: "*",
+    })
+  )
   .route("/authors", authors)
   .route("/books", books)
   .route("/todos", todos);
