@@ -2,7 +2,7 @@
 import { Hono } from "hono";
 import authors from "./author";
 import books from "./books";
-import todos from "./todos";
+// import todos from "./todos";
 
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
@@ -32,8 +32,8 @@ const routes = app
     })
   )
   .route("/authors", authors)
-  .route("/books", books)
-  .route("/todos", todos);
+  .route("/books", books);
+// .route("/todos", todos);
 
 export default handle(app);
 export type AppType = typeof routes;
