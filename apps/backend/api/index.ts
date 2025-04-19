@@ -11,12 +11,12 @@ export const config = {
 };
 
 const app = new Hono()
-  .use(
-    "*",
-    cors({
-      origin: "*",
-    })
-  )
+  // .use(
+  //   "*",
+  //   cors({
+  //     origin: "*",
+  //   })
+  // )
 
   .get("/hello", (c) => {
     return c.json({ message: "Hello Hono!" });
