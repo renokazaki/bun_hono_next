@@ -54,13 +54,13 @@ const app = new Hono()
 // });
 
 // 👷開発用
-const port = 8085;
-console.log(`Server is running on http://localhost:${port}`);
+// const port = 8085;
+// console.log(`Server is running on http://localhost:${port}`);
 
-serve({
-  fetch: app.fetch,
-  port,
-});
+// serve({
+//   fetch: app.fetch,
+//   port,
+// });
 export type AppType = typeof app;
 
 export default handle(app);
