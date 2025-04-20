@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { prisma } from "../../prisma/prisma";
+import { prisma } from "../../../prisma/prisma";
 
 const testaa = new Hono().get("/todos", async (c) => {
   const gettodos = await prisma.todo.findMany();
