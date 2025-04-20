@@ -1,11 +1,8 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
-import { prisma } from "../prisma/prisma";
 
-// import todos from "./todos";
-import user from "./users";
-import book from "./books";
+import { prisma } from "../prisma/prisma";
 
 //👷開発用
 //import { serve } from "@hono/node-server";
@@ -14,31 +11,15 @@ export const config = {
   runtime: "edge",
 };
 
-const app = new Hono()
-  .basePath("/api")
-  .use(
-    "*",
-    cors({
-      origin: "*",
-    })
-  )
+// Create the main Hono app
+const app = new Hono().basePath("/api");
 
-  .get("/hello", (c) => {
-    return c.json({ message: "Hello Hono!" });
+app.use(
+  "*",
+  cors({
+    origin: "*",
   })
-  // .get("/todos", async (c) => {
-  //   const gettodos = await prisma.todo.findMany();
-  //   return c.json(gettodos);
-  // })
-
-  // .route("/todos", todos) // Handle /user
-  .route("/user", user) // Handle /user
-  .route("/book", book); // Handle /book
-
-const getTodo = app.get("/todos", async (c) => {
-  const gettodos = await prisma.todo.findMany();
-  return c.json(gettodos);
-});
+);
 
 // 👷開発用
 //const port = 8085;
@@ -49,7 +30,38 @@ const getTodo = app.get("/todos", async (c) => {
 //  port,
 //});
 
-export type AppType = typeof app & typeof getTodo;
-// export type TodosType = typeof todos;
+const hello = app.get("/hello", (c) => {
+  return c.json({ message: "Hello Hono!" });
+});
+
+const getTodo = app.get("/todos", async (c) => {
+  const gettodos = await prisma.todo.findMany();
+  return c.json(gettodos);
+});
+
+// const postTodo = app.post("/todos", async (c) => {
+//   try {
+//     const body = await c.req.json();
+
+//     const newTodo = await prisma.todo.create({
+//       data: {
+//         title: body.title,
+//         completed: body.completed,
+//       },
+//     });
+
+//     return c.json(newTodo, 201);
+//   } catch (error) {
+//     console.error("Error creating todo:", error);
+//     return c.json(
+//       {
+//         error: "Failed to create todo",
+//       },
+//       500
+//     );
+//   }
+// });
+
+export type AppType = typeof hello & typeof getTodo;
 
 export default handle(app);
