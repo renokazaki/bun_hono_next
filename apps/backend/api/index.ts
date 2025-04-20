@@ -3,7 +3,7 @@ import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
 import { prisma } from "../prisma/prisma";
 
-import todos from "./todos";
+// import todos from "./todos";
 import user from "./users";
 import book from "./books";
 
@@ -50,6 +50,6 @@ const getTodo = app.get("/todos", async (c) => {
 //});
 
 export type AppType = typeof app & typeof getTodo;
-export type TodosType = typeof todos;
+// export type TodosType = typeof todos;
 
 export default handle(app);
