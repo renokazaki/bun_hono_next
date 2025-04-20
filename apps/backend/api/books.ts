@@ -1,23 +1,7 @@
-// // books.ts
-// import { Hono } from "hono";
-// import { cors } from "hono/cors";
-// import { handle } from "hono/vercel";
+import { Hono } from "hono";
 
-// export const config = {
-//   runtime: "edge",
-// };
-// const books = new Hono()
-//   .basePath("/books")
-//   .use(
-//     "*",
-//     cors({
-//       origin: "*",
-//     })
-//   )
-//   .get("/", (c) => c.json("list books"))
-//   .post("/", (c) => c.json("create a book", 201))
-//   .get("/:id", (c) => c.json(`get ${c.req.param("id")}`));
+const book = new Hono();
+book.get("/book", (c) => c.text("List Books")); // GET /book
+book.post("/book", (c) => c.text("Create Book")); // POST /book
 
-// export type AppType = typeof books;
-
-// export default handle(books);
+export default book;
