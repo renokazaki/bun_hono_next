@@ -1,6 +1,6 @@
 "use client";
 
-import { client, testaaClient } from "@/utils/client";
+import { client } from "@/utils/client";
 import { useState } from "react";
 
 interface Todo {
@@ -21,7 +21,7 @@ export default function Home() {
   };
 
   const handleClick2 = async () => {
-    const res2 = await testaaClient.todos.$get();
+    const res2 = await client.api.testaa.todos.$get();
     const data2 = await res2.json();
     setTodos(data2 as Todo[]);
   };
