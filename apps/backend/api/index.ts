@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
 import book from "./books";
-import user from "./user";
+import user from "./users";
 // import { prisma } from "../prisma/prisma";
 
 //👷開発用
@@ -20,8 +20,8 @@ const app = new Hono()
       origin: "*",
     })
   )
-  .route("/book", book) // Handle /book
-  .route("/user", user); // Handle /user
+  .route("/user", user) // Handle /user
+  .route("/book", book); // Handle /book
 
 // const postTodo = app.post("/todos", async (c) => {
 //   try {
