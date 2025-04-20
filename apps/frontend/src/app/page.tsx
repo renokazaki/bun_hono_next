@@ -1,6 +1,6 @@
 "use client";
 
-import { client } from "@/utils/client";
+import { client, todosClient } from "@/utils/client";
 import { useState } from "react";
 
 interface Todo {
@@ -15,33 +15,33 @@ export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const handleClick = async () => {
-    const res = await client.hello.$get();
+    const res = await client.api.hello.$get();
     const data = await res.json();
     alert(data.message);
   };
 
   const handleClick2 = async () => {
-    const res2 = await client.todos.$get();
+    const res2 = await todosClient.todos.$get();
     const data2 = await res2.json();
     setTodos(data2 as Todo[]);
   };
 
-  // const handleClick3 = async () => {
-  //   try {
-  //     await client.api.todos.$post({
-  //       json: {
-  //         title: "apiから投稿",
-  //         completed: false,
-  //       },
-  //     });
+  const handleClick3 = async () => {
+    try {
+      await todosClient.todos.$post({
+        json: {
+          title: "apiから投稿",
+          completed: false,
+        },
+      });
 
-  //     // 投稿後にリストを更新
-  //     await handleClick2();
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //     alert("エラーが発生しました");
-  //   }
-  // };
+      // 投稿後にリストを更新
+      await handleClick2();
+    } catch (error) {
+      console.error("Error:", error);
+      alert("エラーが発生しました");
+    }
+  };
   return (
     <div>
       <div>
@@ -50,9 +50,9 @@ export default function Home() {
       <div>
         <button onClick={handleClick2}>Todoの取得</button>
       </div>
-      {/* <div>
+      <div>
         <button onClick={handleClick3}>Todoの投稿</button>
-      </div> */}
+      </div>
       {todos &&
         todos.map((todo) => (
           <div key={todo.id}>

@@ -1,12 +1,13 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
-import book from "./books";
+import todos from "./todos";
+
 import user from "./users";
-// import { prisma } from "../prisma/prisma";
+import book from "./books";
 
 //👷開発用
-// import { serve } from "@hono/node-server";
+//import { serve } from "@hono/node-server";
 
 export const config = {
   runtime: "edge",
@@ -20,41 +21,25 @@ const app = new Hono()
       origin: "*",
     })
   )
+
+  .get("/hello", (c) => {
+    return c.json({ message: "Hello Hono!" });
+  })
+
+  .route("/todos", todos) // Handle /user
   .route("/user", user) // Handle /user
   .route("/book", book); // Handle /book
 
-// const postTodo = app.post("/todos", async (c) => {
-//   try {
-//     const body = await c.req.json();
-
-//     const newTodo = await prisma.todo.create({
-//       data: {
-//         title: body.title,
-//         completed: body.completed,
-//       },
-//     });
-
-//     return c.json(newTodo, 201);
-//   } catch (error) {
-//     console.error("Error creating todo:", error);
-//     return c.json(
-//       {
-//         error: "Failed to create todo",
-//       },
-//       500
-//     );
-//   }
-// });
-
 // 👷開発用
-// const port = 8085;
-// console.log(`Server is running on http://localhost:${port}`);
+//const port = 8085;
+//console.log(`Server is running on http://localhost:${port}`);
 
-// serve({
-//   fetch: app.fetch,
-//   port,
-// });
+//serve({
+//  fetch: app.fetch,
+//  port,
+//});
 
 export type AppType = typeof app;
+export type TodosType = typeof todos;
 
 export default handle(app);
