@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+// import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
 
@@ -8,12 +8,13 @@ import testDoc from "./routes/apidoctest";
 import testaa from "./routes/testaa";
 import user from "./routes/users";
 import book from "./routes/books";
+import { OpenAPIHono } from "@hono/zod-openapi";
 
 export const config = {
   runtime: "edge",
 };
 
-const app = new Hono()
+const app = new OpenAPIHono()
   .basePath("/api")
   .use(
     "*",
