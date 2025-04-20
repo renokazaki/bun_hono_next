@@ -1,4 +1,6 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
+
 import { prisma } from "../prisma/prisma";
 
 export const config = {
@@ -6,6 +8,12 @@ export const config = {
 };
 
 const todos = new Hono()
+  .use(
+    "*",
+    cors({
+      origin: "*",
+    })
+  )
   .get("/todos", async (c) => {
     const gettodos = await prisma.todo.findMany();
     return c.json(gettodos);
