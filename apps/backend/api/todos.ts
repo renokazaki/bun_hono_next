@@ -1,6 +1,10 @@
 import { Hono } from "hono";
 import { prisma } from "../prisma/prisma";
 
+export const config = {
+  runtime: "edge",
+};
+
 const todos = new Hono()
   .get("/todos", async (c) => {
     const gettodos = await prisma.todo.findMany();
