@@ -2,12 +2,15 @@
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
 
+import testaa from "./routes/todos/testaa";
+import user from "./routes/users/users";
+import book from "./routes/books/books";
+
 //👷開発用
 // import { serve } from "@hono/node-server";
+
+//検証
 import testDoc from "./routes/apidoctest";
-import testaa from "./routes/testaa";
-import user from "./routes/users";
-import book from "./routes/books";
 import { OpenAPIHono } from "@hono/zod-openapi";
 
 export const config = {
