@@ -8,8 +8,6 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 //🔥本番用
 const DATABASE_URL = process.env.DATABASE_URL;
 
-// Create the main Hono app
-
 export const prisma = new PrismaClient({
   datasourceUrl: DATABASE_URL,
 }).$extends(withAccelerate());
