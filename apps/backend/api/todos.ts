@@ -8,6 +8,7 @@ import { prisma } from "../prisma/prisma";
 // };
 
 const todos = new Hono()
+  .basePath("/test")
   //   .use(
   //     "*",
   //     cors({
