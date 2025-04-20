@@ -6,7 +6,7 @@ export const config = {
 };
 const testaa = new Hono();
 
-testaa.get("/", async (c) => {
+testaa.get("/todos", async (c) => {
   const gettodos = await prisma.todo.findMany();
   return c.json(gettodos);
 });
