@@ -28,7 +28,7 @@ export default function Home() {
 
   const handleClick3 = async () => {
     try {
-      await todosClient.todos.$post({
+      await todosClient.test.todos.$post({
         json: {
           title: "apiから投稿",
           completed: false,
