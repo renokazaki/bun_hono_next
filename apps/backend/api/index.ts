@@ -15,7 +15,7 @@ const user = new Hono().basePath("/user");
 user.get("/", (c) => c.text("List Users")); // GET /user
 user.post("/", (c) => c.text("Create User")); // POST /user
 
-const app = new Hono().basePath("/api").use(
+const app = new Hono().use(
   "*",
   cors({
     origin: "*",
