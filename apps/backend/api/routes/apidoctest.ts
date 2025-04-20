@@ -1,6 +1,10 @@
 import { swaggerUI } from "@hono/swagger-ui";
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 
+export const config = {
+  runtime: "edge",
+};
+
 const route = createRoute({
   path: "/echo",
   method: "post",
