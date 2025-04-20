@@ -1,8 +1,9 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
-import todos from "./todos";
+import { prisma } from "../prisma/prisma";
 
+import todos from "./todos";
 import user from "./users";
 import book from "./books";
 
@@ -14,6 +15,7 @@ export const config = {
 };
 
 const app = new Hono()
+  .basePath("/api")
   .use(
     "*",
     cors({
@@ -24,8 +26,12 @@ const app = new Hono()
   .get("/hello", (c) => {
     return c.json({ message: "Hello Hono!" });
   })
+  .get("/todos", async (c) => {
+    const gettodos = await prisma.todo.findMany();
+    return c.json(gettodos);
+  })
 
-  .route("/todos", todos) // Handle /user
+  // .route("/todos", todos) // Handle /user
   .route("/user", user) // Handle /user
   .route("/book", book); // Handle /book
 
