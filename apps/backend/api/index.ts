@@ -1,10 +1,9 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
-
 import user from "./users";
 import book from "./books";
-import { prisma } from "../prisma/prisma";
+import testaa from "./testaa";
 
 //👷開発用
 //import { serve } from "@hono/node-server";
@@ -25,11 +24,8 @@ const app = new Hono()
   .get("/hello", (c) => {
     return c.json({ message: "Hello Hono!" });
   })
-  .get("/todos", async (c) => {
-    const gettodos = await prisma.todo.findMany();
-    return c.json(gettodos);
-  })
 
+  .route("/testaa", testaa)
   .route("/user", user) // Handle /user
   .route("/book", book); // Handle /book
 
