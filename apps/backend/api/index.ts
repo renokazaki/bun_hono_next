@@ -2,6 +2,8 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
 
+import user from "./users";
+import book from "./books";
 import { prisma } from "../prisma/prisma";
 
 //👷開発用
@@ -11,15 +13,25 @@ export const config = {
   runtime: "edge",
 };
 
-// Create the main Hono app
-const app = new Hono().basePath("/api");
+const app = new Hono()
+  .basePath("/api")
+  .use(
+    "*",
+    cors({
+      origin: "*",
+    })
+  )
 
-app.use(
-  "*",
-  cors({
-    origin: "*",
+  .get("/hello", (c) => {
+    return c.json({ message: "Hello Hono!" });
   })
-);
+  .get("/todos", async (c) => {
+    const gettodos = await prisma.todo.findMany();
+    return c.json(gettodos);
+  })
+
+  .route("/user", user) // Handle /user
+  .route("/book", book); // Handle /book
 
 // 👷開発用
 //const port = 8085;
@@ -30,38 +42,6 @@ app.use(
 //  port,
 //});
 
-const hello = app.get("/hello", (c) => {
-  return c.json({ message: "Hello Hono!" });
-});
-
-const getTodo = app.get("/todos", async (c) => {
-  const gettodos = await prisma.todo.findMany();
-  return c.json(gettodos);
-});
-
-// const postTodo = app.post("/todos", async (c) => {
-//   try {
-//     const body = await c.req.json();
-
-//     const newTodo = await prisma.todo.create({
-//       data: {
-//         title: body.title,
-//         completed: body.completed,
-//       },
-//     });
-
-//     return c.json(newTodo, 201);
-//   } catch (error) {
-//     console.error("Error creating todo:", error);
-//     return c.json(
-//       {
-//         error: "Failed to create todo",
-//       },
-//       500
-//     );
-//   }
-// });
-
-export type AppType = typeof hello & typeof getTodo;
+export type AppType = typeof app;
 
 export default handle(app);
