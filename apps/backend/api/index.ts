@@ -4,7 +4,6 @@ import { handle } from "hono/vercel";
 
 //👷開発用
 // import { serve } from "@hono/node-server";
-import testDoc from "./routes/apidoctest";
 import testaa from "./routes/testaa";
 import user from "./routes/users";
 import book from "./routes/books";
@@ -25,7 +24,6 @@ const app = new Hono()
   .get("/hello", (c) => {
     return c.json({ message: "Hello Hono!" });
   })
-  .route("/test", testDoc)
   .route("/testaa", testaa)
   .route("/user", user) // Handle /user
   .route("/book", book); // Handle /book
