@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
 import book from "./books";
+import user from "./user";
 // import { prisma } from "../prisma/prisma";
 
 //👷開発用
@@ -11,18 +12,16 @@ export const config = {
   runtime: "edge",
 };
 
-const user = new Hono().basePath("/user");
-user.get("/", (c) => c.text("List Users")); // GET /user
-user.post("/", (c) => c.text("Create User")); // POST /user
-
-const app = new Hono().use(
-  "*",
-  cors({
-    origin: "*",
-  })
-);
-app.route("/", book); // Handle /book
-app.route("/", user); // Handle /user
+const app = new Hono()
+  .basePath("/api")
+  .use(
+    "*",
+    cors({
+      origin: "*",
+    })
+  )
+  .route("/book", book) // Handle /book
+  .route("/user", user); // Handle /user
 
 // const postTodo = app.post("/todos", async (c) => {
 //   try {
