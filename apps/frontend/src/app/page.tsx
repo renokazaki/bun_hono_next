@@ -1,6 +1,6 @@
 "use client";
 
-import { client } from "@/utils/client";
+import { client, testaaClient } from "@/utils/client";
 import { useState } from "react";
 
 interface Todo {
@@ -21,27 +21,27 @@ export default function Home() {
   };
 
   const handleClick2 = async () => {
-    const res2 = await client.api.todos.$get();
+    const res2 = await testaaClient.todos.$get();
     const data2 = await res2.json();
     setTodos(data2 as Todo[]);
   };
 
-  // const handleClick3 = async () => {
-  //   try {
-  //     await client.api.todos.$post({
-  //       json: {
-  //         title: "apiから投稿",
-  //         completed: false,
-  //       },
-  //     });
+  //   const handleClick3 = async () => {
+  //     try {
+  //       await todosClient.test.todos.$post({
+  //         json: {
+  //           title: "apiから投稿",
+  //           completed: false,
+  //         },
+  //       });
 
-  //     // 投稿後にリストを更新
-  //     await handleClick2();
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //     alert("エラーが発生しました");
-  //   }
-  // };
+  //       // 投稿後にリストを更新
+  //       await handleClick2();
+  //     } catch (error) {
+  //       console.error("Error:", error);
+  //       alert("エラーが発生しました");
+  //     }
+  //   };
   return (
     <div>
       <div>
