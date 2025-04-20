@@ -1,34 +1,31 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
-import { prisma } from "../prisma/prisma";
+// import { prisma } from "../prisma/prisma";
 
 //👷開発用
-//import { serve } from "@hono/node-server";
+import { serve } from "@hono/node-server";
 
 export const config = {
   runtime: "edge",
 };
 
-// Create the main Hono app
-const app = new Hono()
-  .basePath("/api")
+const book = new Hono();
+book.get("/book", (c) => c.text("List Books")); // GET /book
+book.post("/book", (c) => c.text("Create Book")); // POST /book
 
-  .use(
-    "*",
-    cors({
-      origin: "*",
-    })
-  )
+const user = new Hono().basePath("/user");
+user.get("/", (c) => c.text("List Users")); // GET /user
+user.post("/", (c) => c.text("Create User")); // POST /user
 
-  .get("/hello", (c) => {
-    return c.json({ message: "Hello Hono!" });
+const app = new Hono().basePath("/api").use(
+  "*",
+  cors({
+    origin: "*",
   })
-
-  .get("/todos", async (c) => {
-    const gettodos = await prisma.todo.findMany();
-    return c.json(gettodos);
-  });
+);
+app.route("/", book); // Handle /book
+app.route("/", user); // Handle /user
 
 // const postTodo = app.post("/todos", async (c) => {
 //   try {
@@ -54,13 +51,13 @@ const app = new Hono()
 // });
 
 // 👷開発用
-//const port = 8085;
-//console.log(`Server is running on http://localhost:${port}`);
+const port = 8085;
+console.log(`Server is running on http://localhost:${port}`);
 
-//serve({
-//  fetch: app.fetch,
-//  port,
-//});
+serve({
+  fetch: app.fetch,
+  port,
+});
 
 export type AppType = typeof app;
 
