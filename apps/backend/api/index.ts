@@ -1,4 +1,4 @@
-// import { Hono } from "hono";
+import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { handle } from "hono/vercel";
 
@@ -10,15 +10,12 @@ import book from "./routes/books/books";
 // import { serve } from "@hono/node-server";
 
 //検証
-//動かなかったら、消す以下二つを。あと、route内のapidocstestファイル
-import testDoc from "./routes/apidoctest";
-import { OpenAPIHono } from "@hono/zod-openapi";
 
 export const config = {
   runtime: "edge",
 };
 
-const app = new OpenAPIHono()
+const app = new Hono()
   .basePath("/api")
   .use(
     "*",
@@ -30,7 +27,6 @@ const app = new OpenAPIHono()
   .get("/hello", (c) => {
     return c.json({ message: "Hello Hono!" });
   })
-  .route("/test", testDoc)
   .route("/testaa", testaa)
   .route("/user", user) // Handle /user
   .route("/book", book); // Handle /book
