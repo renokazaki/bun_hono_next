@@ -10,6 +10,7 @@ import book from "./routes/books/books";
 // import { serve } from "@hono/node-server";
 
 //検証
+//動かなかったら、消す以下二つを。あと、route内のapidocstestファイル
 import testDoc from "./routes/apidoctest";
 import { OpenAPIHono } from "@hono/zod-openapi";
 
