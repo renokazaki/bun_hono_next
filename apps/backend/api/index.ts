@@ -5,6 +5,7 @@ import { handle } from "hono/vercel";
 import testaa from "./routes/todos/testaa";
 import user from "./routes/users/users";
 import book from "./routes/books/books";
+import line from "./routes/line/index";
 
 //👷開発用
 // import { serve } from "@hono/node-server";
@@ -29,7 +30,8 @@ const app = new Hono()
   })
   .route("/testaa", testaa)
   .route("/user", user) // Handle /user
-  .route("/book", book); // Handle /book
+  .route("/book", book) // Handle /book
+  .route("/line", line)
 
 // 👷開発用
 // const port = 8085;
